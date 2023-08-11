@@ -7,6 +7,7 @@
   </head>
   <body>
     <div id="root"></div>
+
     <!-- To bring the React and ReactDOM to our project -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
@@ -24,6 +25,7 @@
 
         return React.createElement("header", null, `Hello React, Its ${time}`);
       }
+
       //   To render the App component in the root
       const root = ReactDOM.createRoot(document.getElementById("root"));
       root.render(React.createElement(App));
