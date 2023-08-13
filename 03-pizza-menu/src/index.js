@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
+import "./index.css";
 
 const pizzaData = [
   {
@@ -48,7 +49,7 @@ const pizzaData = [
 
 function App() {
   return (
-    <div>
+    <div className="container">
       <Header />
       <Menu />
       <Footer />
@@ -63,27 +64,44 @@ root.render(
   </React.StrictMode>
 );
 
-function Pizza() {
-  return (
-    <div>
-      <h2>Pizza Spinaci</h2>
-      <p>Tomato, mozarella, spinach, and ricotta cheese</p>
-      <img src="pizzas/spinaci.jpg" alt="Pizza Spinaci" />
-    </div>
-  );
-}
-
 function Header() {
-  return <h1>Fast React Pizza Co.</h1>;
+  return (
+    <header className="header">
+      <h1>Fast React Pizza Co.</h1>
+    </header>
+  );
 }
 
 function Menu() {
   return (
-    <div>
+    <main className="menu">
       <h2>Our Menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      <Pizza
+        name="Pizza Spinaci"
+        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
+        photoName="pizzas/spinaci.jpg"
+        price={10}
+      />
+
+      <Pizza
+        name="Pizza Margherita"
+        ingredients="Tomato and mozarella"
+        price={10}
+        photoName="pizzas/margherita.jpg"
+      />
+    </main>
+  );
+}
+
+function Pizza(props) {
+  return (
+    <div className="pizza">
+      <img src={props.photoName} alt={props.name} />
+      <div>
+        <h3>{props.name}</h3>
+        <p>{props.ingredients}</p>
+        <span>{props.price}</span>
+      </div>
     </div>
   );
 }
@@ -96,6 +114,23 @@ function Footer() {
   console.log(isOpen);
 
   return (
-    <footer>{new Date().toLocaleTimeString()}. We're currently open</footer>
+    <footer className="footer">
+      {new Date().toLocaleTimeString()}. We're currently open
+    </footer>
+  );
+}
+
+function CourseRating() {
+  const [rating, setRating] = React.useState(0);
+  return (
+    <Pizza
+      text="course rating"
+      currentRating={rating}
+      numOptions={3}
+      options={["Terrible", "Okay", "Amazing"]}
+      allRatings={{ num: 2340, avg: 34 }}
+      setRating={setRating}
+      component={Menu}
+    />
   );
 }
