@@ -16,12 +16,8 @@ function Counter() {
   const date = new Date("15 Aug 2023");
   date.setDate(date.getDate() + count);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <input
         type="range"
         min="1"
@@ -53,15 +49,15 @@ function Counter() {
         {step !== 1 || count != 0 ? (
           <button
             onClick={() => {
-              setStep((step) => (step = 1));
-              setCount((count) => (count = 0));
+              setStep(1);
+              setCount(0);
             }}
           >
             Reset
           </button>
         ) : null}
       </div>
-    </form>
+    </>
   );
 }
 
