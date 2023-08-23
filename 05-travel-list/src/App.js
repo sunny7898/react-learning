@@ -29,7 +29,7 @@ export default function App() {
         onDeleteItem={handleDeleteItem}
         onPacked={handleTogglePacked}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -115,10 +115,26 @@ function Item({ item, onDeleteItem, onPacked }) {
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  if (!items.length)
+    return (
+      <footer className="stats">
+        <em>Start adding some items to your packing list</em>
+      </footer>
+    );
+
+  const totalItems = items.length;
+  const packedItems = items.filter((item) => item.packed).length;
+  const packedPercentage = Math.round((packedItems / totalItems) * 100);
+
   return (
     <footer className="stats">
-      <em>👜 You have x items on your list, and you already packed X (X %)</em>
+      <em>
+        {packedPercentage === 100
+          ? "You got everything! Ready to go ✈️"
+          : `👜 You have ${totalItems} items on your list, and you already packed
+        ${packedItems} (${packedPercentage} %)`}
+      </em>
     </footer>
   );
 }
