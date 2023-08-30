@@ -33,15 +33,17 @@ export default function App() {
     <div>
       <BillInput billAmount={billAmount} onInput={handleBillAmountChange} />
       <SelectPercentage
-        text="How did you like the service?"
         tipPercentage={tipPercentage}
         onSelect={handleTipPercentage}
-      />
+      >
+        How did you like the service?
+      </SelectPercentage>
       <SelectPercentage
-        text="How did your friend like the service?"
         tipPercentage={friendTipPercentage}
         onSelect={handleFriendTipPercentage}
-      />
+      >
+        How did your friend like the service?
+      </SelectPercentage>
       <OutputBill totalBill={totalBill} totalTip={totalTip} />
       <Reset onReset={handleReset} />
     </div>

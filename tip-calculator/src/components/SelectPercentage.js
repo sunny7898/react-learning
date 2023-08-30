@@ -1,7 +1,7 @@
-export function SelectPercentage({ text, tipPercentage, onSelect }) {
+export function SelectPercentage({ children, tipPercentage, onSelect }) {
   return (
     <div>
-      <span>{text}</span>
+      <span>{children}</span>
       <select
         value={tipPercentage}
         onChange={(e) => onSelect(Number(e.target.value))}
