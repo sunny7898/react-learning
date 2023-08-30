@@ -28,6 +28,7 @@ export const initialFriends = [
 export default function App() {
   const [showAddFriend, setShowAddFriend] = useState(false);
   const [friendsList, setFriendsList] = useState(initialFriends);
+  const [currOpen, setCurrOpen] = useState("");
 
   function handleshowAddFriend() {
     setShowAddFriend((showAddFriend) => !showAddFriend);
@@ -35,13 +36,21 @@ export default function App() {
 
   function handleAddFriend(friend) {
     setFriendsList((friendsList) => [...friendsList, friend]);
-    setShowAddFriend((showAddFriend) => !setShowAddFriend);
+    setShowAddFriend((showAddFriend) => !showAddFriend);
+  }
+
+  function handleCurrOpen(name) {
+    setCurrOpen(name);
   }
 
   return (
     <div className="app">
       <div className="sidebar">
-        <FriendsList friendsList={friendsList} />
+        <FriendsList
+          friendsList={friendsList}
+          currOpen={currOpen}
+          onSetCurrOpen={handleCurrOpen}
+        />
         {showAddFriend && <FormAddFriend onAddFriend={handleAddFriend} />}
         <Button onClick={handleshowAddFriend}>
           {showAddFriend ? "Close" : "Add Friend"}

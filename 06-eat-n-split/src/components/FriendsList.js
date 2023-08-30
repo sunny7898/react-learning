@@ -1,6 +1,6 @@
 import { Friend } from "./Friend";
 
-export function FriendsList({ friendsList }) {
+export function FriendsList({ friendsList, currOpen, onSetCurrOpen }) {
   return (
     <ul>
       {friendsList.map((friend) => (
@@ -9,6 +9,8 @@ export function FriendsList({ friendsList }) {
           name={friend.name}
           image={friend.image}
           balance={friend.balance}
+          currOpen={currOpen}
+          onSetCurrOpen={onSetCurrOpen}
         />
       ))}
     </ul>
