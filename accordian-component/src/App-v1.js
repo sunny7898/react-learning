@@ -25,7 +25,6 @@ export default function App() {
 }
 
 function Accordion({ data }) {
-  const [currOpen, setCurrOpen] = useState(null);
   return (
     <div className="accordion">
       <div>
@@ -35,8 +34,6 @@ function Accordion({ data }) {
             text={faq.text}
             num={currIdx}
             key={currIdx}
-            currOpen={currOpen}
-            onOpen={setCurrOpen}
           />
         ))}
       </div>
@@ -44,11 +41,11 @@ function Accordion({ data }) {
   );
 }
 
-function AccordionItem({ num, title, text, currOpen, onOpen }) {
-  const isOpen = currOpen === num;
+function AccordionItem({ num, title, text }) {
+  const [isOpen, setIsOpen] = useState(false);
 
   function handleToggle() {
-    onOpen(num);
+    setIsOpen((isOpen) => !isOpen);
   }
 
   return (
