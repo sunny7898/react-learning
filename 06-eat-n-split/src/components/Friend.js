@@ -1,7 +1,8 @@
 import { Button } from "./Button";
 
-export function Friend({ name, image, balance, currOpen, onSetCurrOpen }) {
-  const isOpen = name === currOpen;
+export function Friend({ friend, selectedFriend, onSetSelectedFriend }) {
+  const { name, image, balance } = friend;
+  const isSelected = selectedFriend?.id === friend.id;
 
   return (
     <li>
@@ -14,8 +15,8 @@ export function Friend({ name, image, balance, currOpen, onSetCurrOpen }) {
           ? `${name} ows you ₹${Math.abs(Number(balance))}`
           : `You owe ${name} ₹${Math.abs(Number(balance))}`}
       </p>
-      <Button onClick={() => onSetCurrOpen(name)}>
-        {isOpen ? "Close" : "Select"}
+      <Button onClick={() => onSetSelectedFriend(friend)}>
+        {isSelected ? "Close" : "Select"}
       </Button>
     </li>
   );
