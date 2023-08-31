@@ -26,8 +26,8 @@ export const initialFriends = [
 ];
 
 export default function App() {
-  const [showAddFriend, setShowAddFriend] = useState(false);
   const [friendsList, setFriendsList] = useState(initialFriends);
+  const [showAddFriend, setShowAddFriend] = useState(false);
   const [selectedFriend, setSelectedFriend] = useState(null);
 
   function handleshowAddFriend() {
@@ -46,6 +46,17 @@ export default function App() {
     setShowAddFriend(false);
   }
 
+  function handleSplitBill(value) {
+    setFriendsList((friendsList) =>
+      friendsList.map((currFriend) =>
+        currFriend.id === selectedFriend.id
+          ? { ...currFriend, balance: currFriend.balance + value }
+          : currFriend
+      )
+    );
+    setSelectedFriend(null);
+  }
+
   return (
     <div className="app">
       <div className="sidebar">
@@ -61,8 +72,8 @@ export default function App() {
       </div>
       {selectedFriend && (
         <FormSplitBill
-          friendsList={friendsList}
           selectedFriend={selectedFriend}
+          onSplitBill={handleSplitBill}
         />
       )}
     </div>
