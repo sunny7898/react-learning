@@ -104,6 +104,7 @@ export default function App() {
   const handleDeleteWatched = (id) => {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   };
+
   useEffect(
     function () {
       const controller = new AbortController();
@@ -138,6 +139,7 @@ export default function App() {
         setError("");
         return;
       }
+      handleCloseMovie();
       fetchMovies();
       return function () {
         controller.abort();
@@ -298,10 +300,25 @@ function MovieDetails({ selectedId, watched, onCloseMovie, onAddWatched }) {
 
       return function () {
         document.title = "usePopcorn";
-        console.log(`Clean up effect for movie - ${title}`);
       };
     },
     [title]
+  );
+
+  useEffect(
+    function () {
+      function callback(e) {
+        if (e.code === "Escape") {
+          onCloseMovie();
+        }
+      }
+      document.addEventListener("keydown", callback);
+
+      return function () {
+        document.removeEventListener("keydown", callback);
+      };
+    },
+    [onCloseMovie]
   );
 
   return (
