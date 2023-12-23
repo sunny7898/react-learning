@@ -40,10 +40,13 @@ const KEY = "a566fd0c";
 export default function App() {
   const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [watched, setWatched] = useState(function () {
+    const storageValue = JSON.parse(localStorage.getItem("watched"));
+    return storageValue;
+  });
 
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
@@ -57,6 +60,13 @@ export default function App() {
   const handleDeleteWatched = (id) => {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   };
+
+  useEffect(
+    function () {
+      localStorage.setItem("watched", JSON.stringify(watched));
+    },
+    [watched]
+  );
 
   useEffect(
     function () {
@@ -196,7 +206,6 @@ function MovieDetails({ selectedId, watched, onCloseMovie, onAddWatched }) {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
-  const [avgRating, setAvgRating] = useState(0);
 
   const movieAlreadywatched = watched.find((movie) =>
     movie.imdbID === selectedId ? movie.userRating : ""
@@ -229,9 +238,7 @@ function MovieDetails({ selectedId, watched, onCloseMovie, onAddWatched }) {
       runtime: Number(runtime.split(" ").at(0)),
     };
     onAddWatched(newWatchedMovie);
-    setAvgRating(Number(imdbRating));
-    setAvgRating((avgRating) => (avgRating + userRating) / 2);
-    // onCloseMovie();
+    onCloseMovie();
   };
 
   useEffect(
@@ -300,7 +307,6 @@ function MovieDetails({ selectedId, watched, onCloseMovie, onAddWatched }) {
               </p>
             </div>
           </header>
-          <p>Average rating: {avgRating}</p>
           <section>
             <div className="rating">
               {movieAlreadywatched ? (
