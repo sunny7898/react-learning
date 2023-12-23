@@ -1,45 +1,45 @@
 import { useEffect, useState } from "react";
 
 export default function App() {
-  const [inputCurrency, setInputCurrency] = useState("");
-  const [outputCurrency, setOutputCurrency] = useState("");
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(1);
+  const [inputCurrency, setInputCurrency] = useState("USD");
+  const [outputCurrency, setOutputCurrency] = useState("EUR");
   const [result, setResult] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(
     function () {
       async function converter() {
         try {
-          if (amount && inputCurrency !== outputCurrency) {
-            const res = await fetch(
-              `https://api.frankfurter.app/latest?amount=${Number(
-                amount
-              )}&from=${inputCurrency}&to=${outputCurrency}`
-            );
-            const data = await res.json();
-            setResult(data.rates[`${outputCurrency}`]);
-            console.log(data.rates[`${outputCurrency}`]);
-            console.log(amount);
-          }
+          setIsLoading(true);
+          const res = await fetch(
+            `https://api.frankfurter.app/latest?amount=${amount}&from=${inputCurrency}&to=${outputCurrency}`
+          );
+          const data = await res.json();
+          setResult(data.rates[outputCurrency]);
+          setIsLoading(false);
         } catch (err) {
           console.log(err.message);
         }
       }
+      if (inputCurrency === outputCurrency) return setResult(amount);
       converter();
     },
-    [inputCurrency, outputCurrency, amount]
+    [amount, inputCurrency, outputCurrency]
   );
 
   return (
     <div>
       <input
         type="text"
-        onChange={(event) => setAmount(event.target.value)}
+        onChange={(event) => setAmount(Number(event.target.value))}
         value={amount}
+        disabled={isLoading}
       />
       <select
-        onChange={(event) => setInputCurrency(event.target.value)}
         value={inputCurrency}
+        onChange={(event) => setInputCurrency(event.target.value)}
+        disabled={isLoading}
       >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
@@ -47,15 +47,16 @@ export default function App() {
         <option value="INR">INR</option>
       </select>
       <select
-        onChange={(event) => setOutputCurrency(event.target.value)}
         value={outputCurrency}
+        onChange={(event) => setOutputCurrency(event.target.value)}
+        disabled={isLoading}
       >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
         <option value="CAD">CAD</option>
         <option value="INR">INR</option>
       </select>
-      <p>{result ? result : "OUTPUT"}</p>
+      <p>{result ? `${result} ${outputCurrency}` : "OUTPUT"}</p>
     </div>
   );
 }
