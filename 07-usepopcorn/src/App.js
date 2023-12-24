@@ -228,7 +228,18 @@ function MovieDetails({ selectedId, watched, onCloseMovie, onAddWatched }) {
   const [isLoading, setIsLoading] = useState(false);
   const [userRating, setUserRating] = useState("");
 
-  const movieAlreadywatched = watched.find((movie) =>
+  // Creating the ref
+  const countRef = useRef(0);
+
+  // updating the ref
+  useEffect(
+    function () {
+      if (userRating) countRef.current++;
+    },
+    [userRating]
+  );
+
+  const isWatched = watched.find((movie) =>
     movie.imdbID === selectedId ? movie.userRating : ""
   );
   const watchedUserRating = watched.find(
@@ -257,6 +268,7 @@ function MovieDetails({ selectedId, watched, onCloseMovie, onAddWatched }) {
       imdbRating: Number(imdbRating),
       userRating,
       runtime: Number(runtime.split(" ").at(0)),
+      countRatingDecisions: countRef.current,
     };
     onAddWatched(newWatchedMovie);
     onCloseMovie();
@@ -330,7 +342,7 @@ function MovieDetails({ selectedId, watched, onCloseMovie, onAddWatched }) {
           </header>
           <section>
             <div className="rating">
-              {movieAlreadywatched ? (
+              {isWatched ? (
                 <p>You rated the movie {watchedUserRating} ⭐</p>
               ) : (
                 <>
