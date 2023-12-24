@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 
 const KEY = "a566fd0c";
 
-export function useMovies(query, callback) {
+export function useMovies(query) {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   useEffect(
     function () {
       const controller = new AbortController();
-
-      callback?.();
       async function fetchMovies() {
         try {
           setIsLoading(true);
@@ -47,7 +45,7 @@ export function useMovies(query, callback) {
         controller.abort();
       };
     },
-    /*eslint-disable*/
+
     [query]
   );
   return { movies, isLoading, error };
