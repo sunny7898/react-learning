@@ -8,7 +8,6 @@ import Question from "./Question";
 
 const initialState = {
   questions: [],
-
   /* 
     'loading' : in the beginning our application will be in loading state
     'error'   : if there is any error while fetching the data
@@ -17,6 +16,7 @@ const initialState = {
     'finished': once the quiz is completed
   */
   status: "loading",
+  index: 0,
 };
 
 function reducer(state, action) {
@@ -33,7 +33,10 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
   useEffect(function () {
     fetch("http://localhost:8965/questions")
       .then((res) => res.json())
@@ -52,7 +55,7 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
-        {status === "active" && <Question />}
+        {status === "active" && <Question question={questions[index]} />}
       </Main>
     </div>
   );
