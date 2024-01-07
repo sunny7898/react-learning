@@ -1,7 +1,6 @@
 import { useReducer } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
-import { useNavigate } from "react-router";
 
 const AuthContext = createContext();
 
