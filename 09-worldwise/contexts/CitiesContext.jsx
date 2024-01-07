@@ -39,14 +39,25 @@ function CitiesProvider({ children }) {
     }
   }
 
-  // const flagEmojiToPNG = (flag) => {
-  //   var countryCode = Array.from(flag, (codeUnit) => codeUnit.codePointAt())
-  //     .map((char) => String.fromCharCode(char - 127397).toLowerCase())
-  //     .join("");
-  //   return (
-  //     <img src={`https://flagcdn.com/24x18/${countryCode}.png`} alt="flag" />
-  //   );
-  // };
+  async function createCity(newCity) {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`${BASE_URL}/cities`, {
+        method: "POST",
+        body: JSON.stringify(newCity),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.log(data);
+      setCities((cities) => [...cities, data]);
+    } catch (err) {
+      throw new Error(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <CitiesContext.Provider
@@ -55,6 +66,7 @@ function CitiesProvider({ children }) {
         isLoading,
         currentCity,
         getCity,
+        createCity,
       }}
     >
       {children}
