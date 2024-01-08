@@ -3,7 +3,7 @@ import Options from "./Options";
 
 function Question() {
   const { questions, dispatch, answer, index } = useQuiz();
-  const question = questions[index];
+  const question = questions.at(index);
 
   return (
     <div>
