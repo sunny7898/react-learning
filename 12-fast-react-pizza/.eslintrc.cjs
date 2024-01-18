@@ -18,6 +18,6 @@ module.exports = {
     ],
     "no-unused-vars": "warn",
     "react/prop-types": "warn",
-    "react-refresh/only-export-components": false,
+    // "react-refresh/only-export-components": ,
   },
 };
