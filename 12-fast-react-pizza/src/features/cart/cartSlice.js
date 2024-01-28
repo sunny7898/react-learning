@@ -12,7 +12,6 @@ const cartSlice = createSlice({
       // since the state is mutable in rtk
       state.cart.push(action.payload);
     },
-
     deleteItem(state, action) {
       // payload - pizzaId of the item
       state.cart = state.cart.filter((item) => item.pizzaId !== action.payload);
